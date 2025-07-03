@@ -1,24 +1,32 @@
-const express = require("express");
-const cors = require("cors");
-const axios = require("axios");
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-app.get("/seasonals", async (req, res) => {
-  try {
-    const response = await axios.get("https://api.coingecko.com/api/v3/coins/solana/market_chart?vs_currency=usd&days=max&interval=daily");
-    const data = response.data;
+// TEMP DATA SOURCE: Replace this block later with real monthly returns from a reliable source or spreadsheet
+const mockData = {
+  "January": { averageReturn: 12.3, years: 5 },
+  "February": { averageReturn: -2.1, years: 5 },
+  "March": { averageReturn: 5.4, years: 5 },
+  "April": { averageReturn: 3.1, years: 5 },
+  "May": { averageReturn: -1.2, years: 5 },
+  "June": { averageReturn: 7.9, years: 5 },
+  "July": { averageReturn: 6.2, years: 5 },
+  "August": { averageReturn: -3.0, years: 5 },
+  "September": { averageReturn: -5.6, years: 5 },
+  "October": { averageReturn: 4.8, years: 5 },
+  "November": { averageReturn: 8.1, years: 5 },
+  "December": { averageReturn: 10.5, years: 5 }
+};
 
-    // Here you would add logic to aggregate monthly averages over 5 years
-    res.json({ success: true, data });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to fetch seasonals", error: error.message });
-  }
+app.get('/api/seasonals', (req, res) => {
+  res.json(mockData);
 });
 
 app.listen(PORT, () => {
-  console.log(`Proxy server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
